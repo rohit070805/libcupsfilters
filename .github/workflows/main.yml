@@ -1,18 +1,17 @@
-name: CI Test Robot
-
-on: [push]  # Triggers the robot every time you push code
-
+name: Real Build Test
+on: [push]
 jobs:
-  my-first-job:
-    runs-on: ubuntu-latest  # Borrows a Linux computer from GitHub
+  build-attempt:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3  # Downloads your code to that computer
+        uses: actions/checkout@v3
 
-      - name: Say Hello
-        run: echo "Hello OpenPrinting! The robot is working."
+      - name: Install Basic Tools
+        run: sudo apt-get install -y build-essential autoconf libtool pkg-config
 
-      - name: Check Tools
+      - name: Try to Build
         run: |
-          gcc --version
-          make --version
+          ./autogen.sh
+          ./configure
+          make
